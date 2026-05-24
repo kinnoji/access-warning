@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Access Portal</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #f2f2f2;
+      font-family: Arial, Helvetica, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 48px 36px;
+      max-width: 520px;
+      width: 90%;
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(2px);
+      box-shadow: 0 0 30px rgba(255,0,0,0.15);
+    }
+
+    .status {
+      color: #ff3b3b;
+      font-size: 13px;
+      letter-spacing: 3px;
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      font-size: 34px;
+      letter-spacing: 4px;
+      margin: 0 0 18px;
+      font-weight: 700;
+    }
+
+    p {
+      color: #bdbdbd;
+      font-size: 14px;
+      letter-spacing: 2px;
+      line-height: 1.8;
+      margin: 10px 0;
+      text-transform: uppercase;
+    }
+
+    .footer {
+      margin-top: 36px;
+      font-size: 11px;
+      color: #666;
+      letter-spacing: 2px;
+    }
+
+    .blink {
+      animation: blink 2s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="status blink">ACCESS RECORDED</div>
+
+    <h1>AUTHORIZED VISITORS ONLY</h1>
+
+    <p>IF YOU BELONG HERE,</p>
+    <p>YOU ALREADY KNOW.</p>
+
+    <div id="logBox" style="margin-top:32px;text-align:left;border-top:1px solid rgba(255,255,255,0.1);padding-top:20px;font-size:12px;color:#9c9c9c;letter-spacing:1px;line-height:1.8;">
+      <div>> ENTRY NODE ACTIVE</div>
+      <div>> VERIFYING ACCESS...</div>
+      <div id="visitor"></div>
+      <div id="time"></div>
+      <div id="status"></div>
+    </div>
+
+    <div style="margin-top:28px;">
+      <input
+        id="code"
+        type="password"
+        placeholder="ENTER ACCESS PATTERN"
+        style="width:100%;padding:12px;background:#0a0a0a;border:1px solid #333;color:#f2f2f2;letter-spacing:2px;text-transform:uppercase;box-sizing:border-box;"
+      />
+
+      <button
+        onclick="verify()"
+        style="margin-top:12px;width:100%;padding:12px;background:#111;border:1px solid #555;color:#f2f2f2;letter-spacing:3px;cursor:pointer;"
+      >
+        VERIFY
+      </button>
+    </div>
+
+    <div id="result" style="margin-top:20px;font-size:13px;letter-spacing:2px;color:#ff3b3b;"></div>
+
+    <div class="footer">
+      ENTRY LOG ACTIVE
+    </div>
+  </div>
+
+  <script>
+    const now = new Date();
+    document.getElementById('time').innerText = '> ACCESS TIME: ' + now.toLocaleString();
+
+    const fakeId = Math.random().toString(36).substring(2, 10).toUpperCase();
+    document.getElementById('visitor').innerText = '> SESSION ID: ' + fakeId;
+
+    document.getElementById('status').innerText = '> STATUS: UNVERIFIED';
+
+    function verify() {
+      const value = document.getElementById('code').value.trim();
+      const result = document.getElementById('result');
+
+      if (!value) {
+        result.innerText = 'ACCESS DENIED';
+        return;
+      }
+
+      if (value.toLowerCase() === 'pattern') {
+        result.style.color = '#7dff7d';
+        result.innerText = 'ACCESS ACCEPTED';
+        document.getElementById('status').innerText = '> STATUS: VERIFIED';
+      } else {
+        result.style.color = '#ff3b3b';
+        result.innerText = 'INVALID SEQUENCE';
+      }
+    }
+  </script>
+</body>
+</html>
